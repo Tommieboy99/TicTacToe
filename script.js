@@ -1,12 +1,8 @@
 //A function that takes player_name and player_marker (X or O), returns it as a player Object. 
 function createPlayer (name, marker) {
-    function greet() {
-        console.log(`Hello ${name}, your marker is ${marker}. Good luck!`);
-    }
     return {
         name: name,
         marker: marker,
-        greet
     };
 }
 
@@ -33,6 +29,27 @@ const Gameboard = (function () {
         } else {
             return false
         }
+    }
+
+    function gameResult() {
+        const winPatterns = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], //rows
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], //columns
+            [0, 4, 8], [2, 4, 6] //diagonals
+        ];
+
+        for (const pattern of winPatterns) {
+            const [a, b, c] = pattern;
+            if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                return board[a];
+            }
+        }
+
+        if (!board.includes("")) {
+            return "draw";
+        }
+
+        return null;
     }
 
     return {
@@ -74,7 +91,7 @@ const gameController = (function () {
 
         //Function to show the current player's name(whose turn it is)
         function getCurrentPlayer() {
-            return console.log(`Its your turn ${currentPlayer.name}. Use the function gameController.playRound(1...9) to place your marker in the gameboard.`)
+            return console.log(`Its your turn ${currentPlayer.name}. Use the function gameController.playRound(1...9) to place your ${currentPlayer.marker} in the gameboard.`)
         }
 
     return {
