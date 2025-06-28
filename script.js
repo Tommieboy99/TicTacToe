@@ -25,8 +25,19 @@ const Gameboard = (function () {
         ]);
     }
 
+    //Function to place  mark
+    function placeMark(index, marker) {
+        if (board[index] === "") {
+            board[index] = marker;
+            return true
+        } else {
+            return false
+        }
+    }
+
     return {
-        displayBoard
+        displayBoard,
+        placeMark
     }
 
 })();
@@ -38,10 +49,28 @@ const gameController = (function () {
 
     //Track current player
     let currentPlayer = playerOne;
-    
+
+    function playRound(index) {
+        //Checks if the board cell at index is empty
+        //If yes, place the currentPlayer' s marker
+        //Switch to the other player.
+        //Display the board
+        if (Gameboard.placeMark(index, currentPlayer.marker)){
+            Gameboard.displayBoard();
+            switchPlayer();
+        } else {
+            console.log("Cell is already taken!");
+        }
+        }
+        
+        //Function to switch currentPlayer between playerOne and playerTwo
+        function switchPlayer() {
+            currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
+        }
 
     return {
+        playRound
     }
 })();
 
-Gameboard.displayBoard();
+gameController.playRound(2);
