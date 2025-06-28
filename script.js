@@ -50,6 +50,9 @@ const gameController = (function () {
     //Track current player
     let currentPlayer = playerOne;
 
+    Gameboard.displayBoard();
+    getCurrentPlayer();
+
     function playRound(index) {
         //Checks if the board cell at index is empty
         //If yes, place the currentPlayer' s marker
@@ -58,6 +61,7 @@ const gameController = (function () {
         if (Gameboard.placeMark(index, currentPlayer.marker)){
             Gameboard.displayBoard();
             switchPlayer();
+            getCurrentPlayer();
         } else {
             console.log("Cell is already taken!");
         }
@@ -68,9 +72,12 @@ const gameController = (function () {
             currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
         }
 
+        //Function to show the current player's name(whose turn it is)
+        function getCurrentPlayer() {
+            return console.log(`Its your turn ${currentPlayer.name}. Use the function gameController.playRound(1...9) to place your marker in the gameboard.`)
+        }
+
     return {
         playRound
     }
 })();
-
-gameController.playRound(2);
