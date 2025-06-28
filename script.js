@@ -95,7 +95,14 @@ const gameController = (function () {
                 } else  {
                     console.log(`${currentPlayer.name} wins!`);
                 }
+            Gameboard.gameReset();
+            console.log("Game reset! Let's play again.")
+            currentPlayer = playerOne;
+            Gameboard.displayBoard();
+            getCurrentPlayer();
+            return;
             }
+            
             switchPlayer();
             getCurrentPlayer();
         } else {
