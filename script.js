@@ -52,9 +52,17 @@ const Gameboard = (function () {
         return null;
     }
 
+    function gameReset() {
+        for (let i = 0; i < board.length; i++) {
+            board[i] = "";
+        }
+    }
+
     return {
         displayBoard,
-        placeMark
+        placeMark,
+        gameResult,
+        gameReset
     }
 
 })();
@@ -71,18 +79,29 @@ const gameController = (function () {
     getCurrentPlayer();
 
     function playRound(index) {
+        if (index < 0 || index > 8 || isNaN(index)) {
+            return console.log("This input isnt valid. Enter a number(0 - 8).")
+        }
         //Checks if the board cell at index is empty
         //If yes, place the currentPlayer' s marker
         //Switch to the other player.
         //Display the board
         if (Gameboard.placeMark(index, currentPlayer.marker)){
             Gameboard.displayBoard();
+            const result = Gameboard.gameResult();
+            if (result) {
+                if (result === 'draw') {
+                    console.log("It's a draw!");
+                } else  {
+                    console.log(`${currentPlayer.name} wins!`);
+                }
+            }
             switchPlayer();
             getCurrentPlayer();
         } else {
             console.log("Cell is already taken!");
-        }
-        }
+            }
+        }  
         
         //Function to switch currentPlayer between playerOne and playerTwo
         function switchPlayer() {
@@ -91,7 +110,7 @@ const gameController = (function () {
 
         //Function to show the current player's name(whose turn it is)
         function getCurrentPlayer() {
-            return console.log(`Its your turn ${currentPlayer.name}. Use the function gameController.playRound(1...9) to place your ${currentPlayer.marker} in the gameboard.`)
+            return console.log(`Its your turn ${currentPlayer.name}. Use the function gameController.playRound(0...8) to place your ${currentPlayer.marker} in the gameboard.`)
         }
 
     return {
