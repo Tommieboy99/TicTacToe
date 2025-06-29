@@ -129,12 +129,16 @@ const displayController = (function () {
     const startButton = document.querySelector(".startGameBtn");
     const dialog = document.querySelector(".playerForm");
     const form = document.querySelector(".startGameForm");
+    const container = document.querySelector(".container");
 
     function startGameAction() {
         startButton.addEventListener('click', () => {
+            container.style.display = "none";
             dialog.showModal();
         })
     }
+
+    startGameAction();
 
     return {
         startGameAction
