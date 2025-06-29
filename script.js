@@ -5,7 +5,7 @@ function createPlayer (name, marker) {
         marker: marker,
     };
 }
-
+/*
 const Gameboard = (function () {
 
     //Storing Tic Tac Toe board in an array
@@ -68,10 +68,6 @@ const Gameboard = (function () {
 })();
 
 const gameController = (function () {
-    //Setup: create two players
-    const playerOne = createPlayer("Tom", "X");
-    const playerTwo = createPlayer("Stacey", "O");
-
     //Track current player
     let currentPlayer = playerOne;
 
@@ -124,12 +120,14 @@ const gameController = (function () {
         playRound
     }
 })();
+*/
 
 const displayController = (function () {
     const startButton = document.querySelector(".startGameBtn");
     const dialog = document.querySelector(".playerForm");
     const form = document.querySelector(".startGameForm");
     const container = document.querySelector(".container");
+    const boardGrid = document.querySelector(".boardGrid");
 
     function selectGamePlayers() {
         startButton.addEventListener('click', () => {
@@ -140,13 +138,35 @@ const displayController = (function () {
 
     selectGamePlayers();
 
-    //when button clicked -> add player input.value in createPlayer();
-    //sets dialog.closeModal();
-    //shows the gameBoard grid
+    function handleFormSubmit() {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const playerOneName = document.getElementById("#player1Name").value;
+            const playerTwoName = document.getElementById("#player2Name").value;
+
+            if (!playerOneName || !playerTwoName) {
+                alert("Fill in both player names");
+                return;
+            }
+
+            const playerOneMarker = "X";
+            const playerTwoMarker = "O";
+
+            const playerOne = createPlayer(playerOneName, playerOneMarker);
+            const playerTwo = createPlayer(playerTwoName, playerTwoMarker);
+
+            dialog.close();
+            boardGrid.style.display = "grid";
+
+        })
+    }
+
 
 
     return {
-        selectGamePlayers
+        selectGamePlayers,
+        handleFormSubmit
     }
 
 })();
