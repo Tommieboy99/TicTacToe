@@ -131,17 +131,22 @@ const displayController = (function () {
     const form = document.querySelector(".startGameForm");
     const container = document.querySelector(".container");
 
-    function startGameAction() {
+    function selectGamePlayers() {
         startButton.addEventListener('click', () => {
             container.style.display = "none";
             dialog.showModal();
         })
     }
 
-    startGameAction();
+    selectGamePlayers();
+
+    //when button clicked -> add player input.value in createPlayer();
+    //sets dialog.closeModal();
+    //shows the gameBoard grid
+
 
     return {
-        startGameAction
+        selectGamePlayers
     }
 
 })();
