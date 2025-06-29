@@ -124,3 +124,20 @@ const gameController = (function () {
         playRound
     }
 })();
+
+const displayController = (function () {
+    const startButton = document.querySelector(".startGameBtn");
+    const dialog = document.querySelector(".playerForm");
+    const form = document.querySelector(".startGameForm");
+
+    function startGameAction() {
+        startButton.addEventListener('click', () => {
+            dialog.showModal();
+        })
+    }
+
+    return {
+        startGameAction
+    }
+
+})();
