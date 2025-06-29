@@ -5,7 +5,7 @@ function createPlayer (name, marker) {
         marker: marker,
     };
 }
-/*
+
 const Gameboard = (function () {
 
     //Storing Tic Tac Toe board in an array
@@ -68,6 +68,11 @@ const Gameboard = (function () {
 })();
 
 const gameController = (function () {
+
+    function init() {
+        displayController.selectGamePlayers();
+        displayController.handleFormSubmit();
+    }
     //Track current player
     let currentPlayer = playerOne;
 
@@ -117,10 +122,10 @@ const gameController = (function () {
         }
 
     return {
-        playRound
+        playRound,
+        init
     }
 })();
-*/
 
 const displayController = (function () {
     const startButton = document.querySelector(".startGameBtn");
@@ -136,14 +141,12 @@ const displayController = (function () {
         })
     }
 
-    selectGamePlayers();
-
     function handleFormSubmit() {
         form.addEventListener("submit", (e) => {
             e.preventDefault();
 
-            const playerOneName = document.getElementById("#player1Name").value;
-            const playerTwoName = document.getElementById("#player2Name").value;
+            const playerOneName = document.getElementById("player1Name").value;
+            const playerTwoName = document.getElementById("player2Name").value;
 
             if (!playerOneName || !playerTwoName) {
                 alert("Fill in both player names");
@@ -153,17 +156,19 @@ const displayController = (function () {
             const playerOneMarker = "X";
             const playerTwoMarker = "O";
 
+            const playerOne = createPlayer(playerOneName, playerOneMarker);
+            const playerTwo = createPlayer(playerTwoName, playerTwoMarker);
+
             dialog.close();
             boardGrid.style.display = "grid";
 
-            const playerOne = createPlayer(playerOneName, playerOneMarker);
-            const playerTwo = createPlayer(playerTwoName, playerTwoMarker);
         })
     }
-
     return {
         selectGamePlayers,
         handleFormSubmit
     }
 
 })();
+
+gameController.init();
