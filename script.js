@@ -125,7 +125,7 @@ const gameController = (function () {
 const displayController = (function () {
     const startButton = document.querySelector(".startGameBtn");
     const dialog = document.querySelector(".playerForm");
-    const form = document.querySelector(".startGameForm");
+    const form = document.querySelector("#startGameForm");
     const container = document.querySelector(".container");
     const boardGrid = document.querySelector(".boardGrid");
 
@@ -153,16 +153,13 @@ const displayController = (function () {
             const playerOneMarker = "X";
             const playerTwoMarker = "O";
 
-            const playerOne = createPlayer(playerOneName, playerOneMarker);
-            const playerTwo = createPlayer(playerTwoName, playerTwoMarker);
-
             dialog.close();
             boardGrid.style.display = "grid";
 
+            const playerOne = createPlayer(playerOneName, playerOneMarker);
+            const playerTwo = createPlayer(playerTwoName, playerTwoMarker);
         })
     }
-
-
 
     return {
         selectGamePlayers,

@@ -37,7 +37,7 @@ body {
     cursor: pointer;
 }
 
-.startGameBtn:hover {
+.startGameBtn:hover{
     color: #fff;
     background: linear-gradient(145deg, #0e0e0e, #222);
     box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
@@ -48,26 +48,37 @@ body {
     background: radial-gradient(ellipse at center, #0a0a0a 0%, #000000 100%);
     border: 1px solid #0ff;
     border-radius: 12px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    box-shadow: 0 0 15px 3px #0ff;
 }
 
 #startGameForm {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr auto 1fr auto;
+    gap: 0px 10px;
     grid-template-areas: 
-        "a . c"
-        ". e ."
-        "b . d"
+        "a e c"
         ". f ."
     ;
 }
 
 .firstPlayerName { grid-area: a; }
-.firstPlayerSymbol { grid-area: b; }
 .secondPlayerName { grid-area: c; }
-.secondPlayerSymbol { grid-area: d; }
-.submitBtn { grid-area: f; }
 .vsIcon { grid-area: e; }
+.submitBtn { grid-area: f; }
+
+.firstPlayerName,
+.firstPlayerSymbol,
+.secondPlayerName,
+.secondPlayerSymbol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
 
 .vsIcon {
     height: 48px;
@@ -75,8 +86,38 @@ body {
     justify-self: center;
 }
 
+input[type="text"] {
+    border: 2px solid #0ff;
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 16px;
+    background-color: #111;
+    color: #0ff;
+    text-align: center;
+    outline: none;
+}
+
+.submitBtn {
+    padding: 8px 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 1px;
+    border-radius: 10px;
+    color: #0ff;
+    border: 1px solid #0ff;
+    background: linear-gradient(145deg, #111, #1a1a1a);
+    cursor: pointer;
+    margin: 20px 0px 0px 0px;
+}
+
+.submitBtn:hover {
+    color: #fff;
+    background: linear-gradient(145deg, #0e0e0e, #222);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+
 .boardGrid {
-    display: grid;
+    display: none;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     width: fit-content;
@@ -84,7 +125,7 @@ body {
 }
 
 .gridCell {
-    border: 1px solid black;
+    border: 1px solid #0ff;
     height: 150px;
     width: 150px;
 }
