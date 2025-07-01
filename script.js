@@ -142,7 +142,9 @@ const displayController = (function () {
         gridCell.forEach((cell, index) => {
             cell.addEventListener("click", () => {
                 console.log(index);
+
                 const mark = gameController.playRound(index);
+                if (cell.textContent !== "") return;
                 if (mark){
                     cell.textContent = mark;
                 }
