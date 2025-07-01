@@ -55,6 +55,8 @@ const gameBoard = (function () {
 const gameController = (function () {
 
     let playerOne, playerTwo, currentPlayer;
+    let playerOneScore = 0;
+    let playerTwoScore = 0;
 
     function init() {
         displayController.selectGamePlayers();
@@ -66,22 +68,37 @@ const gameController = (function () {
         playerOne = createPlayer(playerOneName, "X");
         playerTwo = createPlayer(playerTwoName, "O");
         currentPlayer = playerOne;
-        console.log(playerOne, playerTwo)
     }
 
     function playRound(index){
-        gameBoard.placeMark(index, currentPlayer.marker);
+        const successfull = gameBoard.placeMark(index, currentPlayer.marker);
+        if (!successfull) return null;
+
         const result = gameBoard.resultCheck();
+        const placedMarker = currentPlayer.marker;
 
         if (result === "draw") {
-            console.log("draw!");
+
+            displayController.resultMessage("It's a draw!");
+            displayController.updatePlayerTurn("");
+
         } else if (result === "X" || result === "O") {
-            console.log(`${currentPlayer.name} wins!`);
+
+            if (currentPlayer === playerOne) {
+                playerOneScore++;
+            } else {
+                playerTwoScore++;
+            }
+
+            displayController.updateScoreboard(playerOne.name, playerOneScore, playerTwo.name, playerTwoScore)
+            displayController.updatePlayerTurn("");
+            displayController.resultMessage(`${currentPlayer.name} wins!`)
+
         } else {
             switchPlayer();
         }
 
-        return currentPlayer.marker
+        return placedMarker;
     }
 
     function switchPlayer() {
@@ -90,6 +107,8 @@ const gameController = (function () {
         } else {
           currentPlayer = playerOne;
         }
+
+        displayController.updatePlayerTurn(`${currentPlayer.name}, it's your turn`);
     }
 
     return {
@@ -102,17 +121,20 @@ const gameController = (function () {
 
 const displayController = (function () {
     const startButton = document.querySelector(".startGameBtn");
-    const dialog = document.querySelector(".playerForm");
+    const dialogStart = document.querySelector(".playerForm");
+    const dialogResult = document.querySelector(".resultWindow");
+    const resultText = document.querySelector(".resultText");
     const form = document.querySelector("#startGameForm");
     const container = document.querySelector(".container");
     const displayGame = document.querySelector(".displayGame");
     const playerScore = document.querySelector(".playerScore");
     const gridCell = document.querySelectorAll('.gridCell');
+    const playerTurn = document.querySelector(".playerTurn")
 
     function selectGamePlayers() {
         startButton.addEventListener('click', () => {
             container.style.display = "none";
-            dialog.showModal();
+            dialogStart.showModal();
         })
     }
 
@@ -123,14 +145,10 @@ const displayController = (function () {
             const playerOneName = document.getElementById("player1Name").value;
             const playerTwoName = document.getElementById("player2Name").value;
 
-            if (!playerOneName || !playerTwoName) {
-                alert("Fill in both player names");
-                return;
-            }
-
-            dialog.close();
+            dialogStart.close();
             displayGame.style.display = "flex";
             playerScore.textContent = `${playerOneName} 0 - 0 ${playerTwoName}`;
+            playerTurn.textContent = `${playerOneName}, it's your turn`;
 
 
             callback(playerOneName, playerTwoName);
@@ -141,21 +159,39 @@ const displayController = (function () {
     function selectBoardCell() {
         gridCell.forEach((cell, index) => {
             cell.addEventListener("click", () => {
-                console.log(index);
 
                 const mark = gameController.playRound(index);
-                if (cell.textContent !== "") return;
-                if (mark){
+
+                if (mark) {
                     cell.textContent = mark;
                 }
             })
         })
     }
 
+    function resultMessage(message) {
+
+        resultText.textContent = message;
+        dialogResult.style.display = "flex";
+        dialogResult.showModal();
+
+    }
+
+    function updateScoreboard(nameOne, scoreOne, nameTwo, scoreTwo) {
+        playerScore.textContent = `${nameOne} ${scoreOne} - ${scoreTwo} ${nameTwo}`
+    }
+
+    function updatePlayerTurn(message) {
+        playerTurn.textContent = message;
+    }
+
     return {
         selectGamePlayers,
         handleFormSubmit,
-        selectBoardCell
+        selectBoardCell,
+        updateScoreboard,
+        updatePlayerTurn,
+        resultMessage
     }
 
 })();
